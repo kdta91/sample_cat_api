@@ -2,6 +2,10 @@
 
 For more information about the API, please visit the official site at [https://docs.thecatapi.com/](https://docs.thecatapi.com/)
 
+## Live demo
+
+Check the live demo [here](https://friendly-cray-4f2a0f.netlify.app/)
+
 ## Notes
 
 Please create a .env file with the following variables:
