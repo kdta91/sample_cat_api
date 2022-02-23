@@ -64,7 +64,14 @@ const Cats = () => {
     };
 
     setStates();
-  }, [breed, paginationPage, paginationLimit, setPrevBreed, prevBreed]);
+  }, [
+    breed,
+    paginationPage,
+    paginationLimit,
+    setPrevBreed,
+    prevBreed,
+    setError,
+  ]);
 
   return (
     <>
