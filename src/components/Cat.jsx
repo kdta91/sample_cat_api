@@ -61,7 +61,7 @@ const Cat = () => {
       )}
 
       {isLoading ? (
-        "Loading cats ..."
+        "Loading cat details ..."
       ) : (
         <Card id="cat-details">
           <Card.Header>
