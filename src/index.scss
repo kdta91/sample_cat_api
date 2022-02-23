@@ -1,7 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
+$white: #fff;
+
 .btn-success {
-  color: #fff !important;
+  color: $white !important;
 }
 
 #cats {

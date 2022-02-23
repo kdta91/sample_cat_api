@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { fetchBreeds } from "../api/CatAPI";
 import { useBreed } from "../contexts/CatBreedsContext";
 import { useError } from "../contexts/ErrorContext";
+import { useIsLoading } from "../contexts/LoadingContext";
 import Form from "react-bootstrap/Form";
-import Cats from "./Cats";
 import AlertNotification from "./AlertNotification";
 
 const BreedSelector = () => {
@@ -11,6 +11,7 @@ const BreedSelector = () => {
 
   const { breed, setBreed } = useBreed();
   const { error, setError } = useError();
+  const { isLoading, setIsLoading } = useIsLoading();
 
   const selectBreed = (e) =>
     e.target.value ? setBreed(e.target.value) : setBreed("");
@@ -20,11 +21,13 @@ const BreedSelector = () => {
      * Set the breeds array from the returned list of breeds
      */
     const getBreeds = async () => {
+      setIsLoading(true);
       const data = await fetchBreeds();
       data.error ? setError(data.error) : setBreeds(data) && setError(false);
+      setIsLoading(false);
     };
     getBreeds();
-  }, [setError]);
+  }, [setError, setIsLoading]);
 
   return (
     <>
@@ -39,7 +42,7 @@ const BreedSelector = () => {
 
       <Form.Group className="my-4">
         <Form.Label>Breed</Form.Label>
-        <Form.Select value={breed} onChange={selectBreed}>
+        <Form.Select value={breed} onChange={selectBreed} disabled={isLoading}>
           <option value="">Select breed</option>
           {breeds &&
             breeds.map((breed) => (
@@ -50,7 +53,7 @@ const BreedSelector = () => {
         </Form.Select>
       </Form.Group>
 
-      <Cats />
+      {isLoading && "Loading..."}
     </>
   );
 };

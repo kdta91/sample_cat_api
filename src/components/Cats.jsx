@@ -5,6 +5,7 @@ import { Card, Row, Col } from "react-bootstrap";
 import { fetchCatsByBreed } from "../api/CatAPI";
 import { useBreed } from "../contexts/CatBreedsContext";
 import { useError } from "../contexts/ErrorContext";
+import { useIsLoading } from "../contexts/LoadingContext";
 import Btn from "./Btn";
 
 const Cats = () => {
@@ -12,6 +13,7 @@ const Cats = () => {
 
   const { breed, setPrevBreed, prevBreed } = useBreed();
   const { setError } = useError();
+  const { isLoading, setIsLoading } = useIsLoading();
 
   const [paginationCount, setPaginationCount] = useState(0);
   const [paginationPage, setPaginationPage] = useState(0);
@@ -45,6 +47,8 @@ const Cats = () => {
      * else reset the cats, paginationCount and setPaginationPage states to their initial state
      */
     const setStates = async () => {
+      setIsLoading(true);
+
       const data = await getCats();
 
       if (data.error) {
@@ -61,6 +65,8 @@ const Cats = () => {
 
         setError(false);
       }
+
+      setIsLoading(false);
     };
 
     setStates();
@@ -71,6 +77,7 @@ const Cats = () => {
     setPrevBreed,
     prevBreed,
     setError,
+    setIsLoading,
   ]);
 
   return (
@@ -102,7 +109,9 @@ const Cats = () => {
             text="Load more"
             variant="success"
             onClick={loadMore}
-            disabled={paginationCount > cats.length ? false : true}
+            disabled={
+              paginationCount > cats.length && !isLoading ? false : true
+            }
             style={{
               display: paginationCount > cats.length ? "inline-block" : "none",
             }}
